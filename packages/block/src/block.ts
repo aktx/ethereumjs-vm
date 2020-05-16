@@ -1,8 +1,6 @@
 import Common from 'ethereumjs-common'
-import * as ethUtil from 'ethereumjs-util'
-import { BN, rlp } from 'ethereumjs-util'
+import { BN, rlp, keccak256, KECCAK256_RLP, baToJSON } from 'ethereumjs-util'
 import { Transaction, TransactionOptions } from 'ethereumjs-tx'
-
 import { BlockHeader } from './header'
 import { Blockchain, BlockData, ChainOptions } from './types'
 
@@ -148,7 +146,7 @@ export class Block {
     if (this.transactions.length) {
       return txT === this.txTrie.root.toString('hex')
     } else {
-      return txT === ethUtil.KECCAK256_RLP.toString('hex')
+      return txT === KECCAK256_RLP.toString('hex')
     }
   }
 
@@ -163,7 +161,7 @@ export class Block {
   validateTransactions(stringError = false) {
     const errors: string[] = []
 
-    this.transactions.forEach(function(tx, i) {
+    this.transactions.forEach(function (tx, i) {
       const error = tx.validate(true)
       if (error) {
         errors.push(`${error} at tx ${i}`)
@@ -209,7 +207,7 @@ export class Block {
   validateUnclesHash(): boolean {
     const raw = rlp.encode(this.uncleHeaders.map(uh => uh.raw))
 
-    return ethUtil.keccak256(raw).toString('hex') === this.header.uncleHash.toString('hex')
+    return keccak256(raw).toString('hex') === this.header.uncleHash.toString('hex')
   }
 
   /**
@@ -248,7 +246,7 @@ export class Block {
         uncleHeaders: this.uncleHeaders.forEach(uh => uh.toJSON(true)),
       }
     } else {
-      return ethUtil.baToJSON(this.raw)
+      return baToJSON(this.raw)
     }
   }
 
