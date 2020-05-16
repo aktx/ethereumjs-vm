@@ -565,7 +565,7 @@ export const handlers: { [k: string]: OpHandler } = {
   GAS: function (runState: RunState) {
     runState.stack.push(new BN(runState.eei.getGasLeft()))
   },
-  JUMPDEST: function (runState: RunState) { },
+  JUMPDEST: function (runState: RunState) {},
   PUSH: function (runState: RunState) {
     const numToPush = runState.opCode - 0x5f
     const loaded = new BN(
