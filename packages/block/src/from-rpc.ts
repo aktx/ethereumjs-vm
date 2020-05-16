@@ -39,12 +39,12 @@ export default function blockFromRpc(
 
       const tx = new FakeTransaction(txParams, chainOptions as TransactionOptions)
       tx.from = fromAddress
-      tx.getSenderAddress = function () {
+      tx.getSenderAddress = function() {
         return fromAddress
       }
       // override hash
       const txHash = toBuffer(txParams.hash)
-      tx.hash = function () {
+      tx.hash = function() {
         return txHash
       }
 

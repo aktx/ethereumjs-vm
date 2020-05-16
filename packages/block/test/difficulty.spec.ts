@@ -9,7 +9,7 @@ function isHexPrefixed(str: string) {
 }
 
 function normalize(data: any) {
-  Object.keys(data).forEach(function (i) {
+  Object.keys(data).forEach(function(i) {
     if (i !== 'homestead' && typeof data[i] === 'string') {
       data[i] = isHexPrefixed(data[i]) ? new BN(toBuffer(data[i])) : new BN(data[i])
     }

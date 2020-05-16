@@ -162,7 +162,7 @@ export class Block {
   validateTransactions(stringError = false) {
     const errors: string[] = []
 
-    this.transactions.forEach(function (tx, i) {
+    this.transactions.forEach(function(tx, i) {
       const error = tx.validate(true)
       if (error) {
         errors.push(`${error} at tx ${i}`)

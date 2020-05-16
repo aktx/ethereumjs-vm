@@ -5,8 +5,8 @@ import { rlp } from 'ethereumjs-util'
 import { BlockHeader } from '../src/header'
 import { Block } from '../src/block'
 
-tape('[Block]: Header functions', function (t) {
-  t.test('should create with default constructor', function (st) {
+tape('[Block]: Header functions', function(t) {
+  t.test('should create with default constructor', function(st) {
     function compareDefaultHeader(st: tape.Test, header: BlockHeader) {
       st.deepEqual(header.parentHash, zeros(32))
       st.equal(header.uncleHash.toString('hex'), KECCAK256_RLP_ARRAY_S)
@@ -35,7 +35,7 @@ tape('[Block]: Header functions', function (t) {
     st.end()
   })
 
-  t.test('should test header initialization', function (st) {
+  t.test('should test header initialization', function(st) {
     const header1 = new BlockHeader(undefined, { chain: 'ropsten' })
     const common = new Common('ropsten')
     const header2 = new BlockHeader(undefined, { common: common })
@@ -48,7 +48,7 @@ tape('[Block]: Header functions', function (t) {
     )
 
     st.throws(
-      function () {
+      function() {
         new BlockHeader(undefined, { chain: 'ropsten', common: common })
       },
       /not allowed!$/,
@@ -57,7 +57,7 @@ tape('[Block]: Header functions', function (t) {
     st.end()
   })
 
-  t.test('should test validateGasLimit', function (st) {
+  t.test('should test validateGasLimit', function(st) {
     const testData = require('./testdata/bcBlockGasLimitTest.json').tests
     const bcBlockGasLimigTestData = testData.BlockGasLimit2p63m1
 
@@ -70,7 +70,7 @@ tape('[Block]: Header functions', function (t) {
     st.end()
   })
 
-  t.test('should test isGenesis', function (st) {
+  t.test('should test isGenesis', function(st) {
     const header = new BlockHeader()
     st.equal(header.isGenesis(), false)
     header.number = Buffer.from([])
@@ -79,7 +79,7 @@ tape('[Block]: Header functions', function (t) {
   })
 
   const testDataGenesis = require('./testdata/genesishashestest.json').test
-  t.test('should test genesis hashes (mainnet default)', function (st) {
+  t.test('should test genesis hashes (mainnet default)', function(st) {
     const header = new BlockHeader()
     header.setGenesisParams()
     st.strictEqual(
@@ -90,7 +90,7 @@ tape('[Block]: Header functions', function (t) {
     st.end()
   })
 
-  t.test('should test genesis parameters (ropsten)', function (st) {
+  t.test('should test genesis parameters (ropsten)', function(st) {
     const genesisHeader = new BlockHeader(undefined, { chain: 'ropsten' })
     genesisHeader.setGenesisParams()
     const ropstenStateRoot = '217b0bbcfb72e2d57e28f33cb361b9983513177755dc3f33ce3e7022ed62b77b'

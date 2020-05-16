@@ -1,5 +1,13 @@
 import Common from 'ethereumjs-common'
-import { zeros, KECCAK256_RLP_ARRAY, KECCAK256_RLP, toBuffer, defineProperties, bufferToInt, rlphash } from 'ethereumjs-util'
+import {
+  zeros,
+  KECCAK256_RLP_ARRAY,
+  KECCAK256_RLP,
+  toBuffer,
+  defineProperties,
+  bufferToInt,
+  rlphash,
+} from 'ethereumjs-util'
 import { Blockchain, BlockHeaderData, BufferLike, ChainOptions, PrefixedHexString } from './types'
 import { Buffer } from 'buffer'
 import { Block } from './block'
