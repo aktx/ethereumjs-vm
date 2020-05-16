@@ -1,10 +1,11 @@
 import Common from 'ethereumjs-common'
-import { BN, rlp, keccak256, KECCAK256_RLP, baToJSON } from 'ethereumjs-util'
+import { rlp, keccak256, KECCAK256_RLP, baToJSON } from 'ethereumjs-util'
 import { Transaction, TransactionOptions } from 'ethereumjs-tx'
 import { BlockHeader } from './header'
 import { Blockchain, BlockData, ChainOptions } from './types'
 
 const Trie = require('merkle-patricia-tree')
+const { BN } = require('ethereumjs-util')
 
 /**
  * An object that represents the block

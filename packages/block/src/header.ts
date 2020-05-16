@@ -1,8 +1,11 @@
 import Common from 'ethereumjs-common'
-import { BN, zeros, KECCAK256_RLP_ARRAY, KECCAK256_RLP, toBuffer, defineProperties, bufferToInt, rlphash } from 'ethereumjs-util'
+import { zeros, KECCAK256_RLP_ARRAY, KECCAK256_RLP, toBuffer, defineProperties, bufferToInt, rlphash } from 'ethereumjs-util'
 import { Blockchain, BlockHeaderData, BufferLike, ChainOptions, PrefixedHexString } from './types'
 import { Buffer } from 'buffer'
 import { Block } from './block'
+
+const { BN } = require('ethereumjs-util')
+import IBN = require('bn.js')
 
 /**
  * An object that represents the block header
@@ -130,7 +133,7 @@ export class BlockHeader {
    *
    * @param parentBlock - the parent `Block` of this header
    */
-  canonicalDifficulty(parentBlock: Block): BN {
+  canonicalDifficulty(parentBlock: Block): IBN {
     const hardfork = this._getHardfork()
     const blockTs = new BN(this.timestamp)
     const parentTs = new BN(parentBlock.header.timestamp)
@@ -142,7 +145,7 @@ export class BlockHeader {
     let num = new BN(this.number)
 
     // We use a ! here as TS can follow this hardforks-dependent logic, but it always gets assigned
-    let dif!: BN
+    let dif!: IBN
 
     if (this._common.hardforkGteHardfork(hardfork, 'byzantium')) {
       // max((2 if len(parent.uncles) else 1) - ((timestamp - parent.timestamp) // 9), -99) (EIP100)
@@ -251,7 +254,7 @@ export class BlockHeader {
    * @param blockchain - the blockchain that this block is validating against
    * @param height - If this is an uncle header, this is the height of the block that is including it
    */
-  async validate(blockchain: Blockchain, height?: BN): Promise<void> {
+  async validate(blockchain: Blockchain, height?: IBN): Promise<void> {
     if (this.isGenesis()) {
       return
     }
