@@ -1,5 +1,5 @@
 const async = require('async')
-const { BN, rlp, keccak256, stripHexPrefix, setLength } = require('ethereumjs-util')
+const { BN, rlp, keccak256, stripHexPrefix, setLengthLeft } = require('ethereumjs-util')
 const Account = require('ethereumjs-account').default
 const Transaction = require('ethereumjs-tx').Transaction
 const Block = require('ethereumjs-block').Block
@@ -191,7 +191,7 @@ exports.verifyAccountPostConditions = function (state, address, account, acctDat
 
   var hashedStorage = {}
   for (var key in acctData.storage) {
-    hashedStorage[keccak256(setLength(Buffer.from(key.slice(2), 'hex'), 32)).toString('hex')] =
+    hashedStorage[keccak256(setLengthLeft(Buffer.from(key.slice(2), 'hex'), 32)).toString('hex')] =
       acctData.storage[key]
   }
 
@@ -294,7 +294,7 @@ exports.fromDecimal = function (string) {
  * @returns {Buffer}
  */
 exports.fromAddress = function (hexString) {
-  return setLength(Buffer.from(new BN(hexString.slice(2), 16).toArray()), 32)
+  return setLengthLeft(Buffer.from(new BN(hexString.slice(2), 16).toArray()), 32)
 }
 
 /**
@@ -313,7 +313,7 @@ exports.makeBlockHeader = function (data) {
   if (data.previousHash) {
     header.parentHash = format(data.previousHash, false, true)
   }
-  header.coinbase = setLength(format(data.currentCoinbase, false, true), 20)
+  header.coinbase = setLengthLeft(format(data.currentCoinbase, false, true), 20)
   header.difficulty = format(data.currentDifficulty)
   header.number = format(data.currentNumber)
   return header
@@ -391,7 +391,7 @@ exports.setupPreConditions = function (state, testData, done) {
                   return cb3()
                 }
                 let val = rlp.encode(valBN.toArrayLike(Buffer, 'be'))
-                key = setLength(Buffer.from(key.slice(2), 'hex'), 32)
+                key = setLengthLeft(Buffer.from(key.slice(2), 'hex'), 32)
 
                 storageTrie.put(key, val, cb3)
               },
