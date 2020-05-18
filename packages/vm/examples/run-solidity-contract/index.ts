@@ -1,4 +1,6 @@
-import VM from '../../dist'
+// import VM from '../../dist'
+
+import VM from 'ethereumjs-vm'
 
 import * as assert from 'assert'
 import * as path from 'path'
