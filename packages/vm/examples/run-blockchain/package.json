@@ -3,5 +3,9 @@
   "private": true,
   "scripts": {
     "example": "ts-node index.ts"
+  },
+  "dependencies": {
+    "ethereumjs-vm": "^4.2.0",
+    "ts-node": "^8.10.1"
   }
 }

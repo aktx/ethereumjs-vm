@@ -1,4 +1,4 @@
-import VM from '../../'
+import VM from 'ethereumjs-vm'
 
 import Account from 'ethereumjs-account'
 import Blockchain from 'ethereumjs-blockchain'
@@ -52,7 +52,7 @@ function setEthashCache(blockchain: any) {
 }
 
 async function setupPreConditions(vm: VM, testData: any) {
-  await vm.stateManager.checkpoint()
+  await vm.stateManager.checkpoint(() => {})
 
   for (const address of Object.keys(testData.pre)) {
     const addressBuf = toBuffer(address)
@@ -63,21 +63,21 @@ async function setupPreConditions(vm: VM, testData: any) {
       balance: acctData.balance,
     })
 
-    await vm.stateManager.putAccount(addressBuf, account)
+    await vm.stateManager.putAccount(addressBuf, account, () => {})
 
     for (const hexStorageKey of Object.keys(acctData.storage)) {
       const val = toBuffer(acctData.storage[hexStorageKey])
       const storageKey = setLength(toBuffer(hexStorageKey), 32)
 
-      await vm.stateManager.putContractStorage(addressBuf, storageKey, val)
+      await vm.stateManager.putContractStorage(addressBuf, storageKey, val, () => {})
     }
 
-    const codeBuf = toBuffer(acctData.code)
+    const codeBuf = toBuffer('0x' + acctData.code)
 
-    await vm.stateManager.putContractCode(addressBuf, codeBuf)
+    await vm.stateManager.putContractCode(addressBuf, codeBuf, () => {})
   }
 
-  await vm.stateManager.commit()
+  await vm.stateManager.commit(() => {})
 }
 
 async function setGenesisBlock(blockchain: any, hardfork: string) {
